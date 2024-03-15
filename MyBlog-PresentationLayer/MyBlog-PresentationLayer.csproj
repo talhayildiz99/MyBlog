@@ -7,4 +7,8 @@
     <RootNamespace>MyBlog_PresentationLayer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyBlog.BusinessLayer\MyBlog.BusinessLayer.csproj" />
+  </ItemGroup>
+
 </Project>
