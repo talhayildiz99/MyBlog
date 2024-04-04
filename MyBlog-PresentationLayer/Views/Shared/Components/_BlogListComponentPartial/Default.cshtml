@@ -17,8 +17,8 @@
                     <div class="categories__post__item__pic set-bg"
                          data-setbg="@item.ThumbImageUrl">
                         <div class="post__meta">
-                            <h4>@item.CreatedDate.Day</h4>
-                            <span>@item.CreatedDate.Month</span>
+                            <h4>@item.CreatedDate.ToString("dd")</h4>
+                            <span>@item.CreatedDate.ToString("MMMM")</span>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,14 @@
                             <li>0 Yorum</li>
                         </ul>
                         <p>
-                            @item.Detail.Substring(0,200)...
+                            @if (item.Detail != null && item.Detail.Length > 200)
+                            {
+                                @item.Detail.Substring(0, 200)
+                            }
+                            else
+                            {
+                                @item.Detail
+                            }
                         </p>
                     </div>
                 </div>
