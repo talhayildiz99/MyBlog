@@ -306,6 +306,9 @@ namespace MyBlog.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"), 1L, 1);
 
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -317,6 +320,8 @@ namespace MyBlog.DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Comments");
                 });
@@ -462,9 +467,25 @@ namespace MyBlog.DataAccessLayer.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("MyBlog.EntityLayer.Concrete.Comment", b =>
+                {
+                    b.HasOne("MyBlog.EntityLayer.Concrete.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+                });
+
             modelBuilder.Entity("MyBlog.EntityLayer.Concrete.AppUser", b =>
                 {
                     b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("MyBlog.EntityLayer.Concrete.Article", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("MyBlog.EntityLayer.Concrete.Category", b =>

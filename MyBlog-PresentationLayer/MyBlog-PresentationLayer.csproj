@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Writer\Data\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
