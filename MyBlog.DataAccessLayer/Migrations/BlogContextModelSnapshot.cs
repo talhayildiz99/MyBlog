@@ -248,6 +248,12 @@ namespace MyBlog.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArticleId"), 1L, 1);
 
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CoverImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -268,6 +274,10 @@ namespace MyBlog.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ArticleId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Articles");
                 });
@@ -435,6 +445,31 @@ namespace MyBlog.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MyBlog.EntityLayer.Concrete.Article", b =>
+                {
+                    b.HasOne("MyBlog.EntityLayer.Concrete.AppUser", "AppUser")
+                        .WithMany("Articles")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("MyBlog.EntityLayer.Concrete.Category", "Category")
+                        .WithMany("Articles")
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("MyBlog.EntityLayer.Concrete.AppUser", b =>
+                {
+                    b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("MyBlog.EntityLayer.Concrete.Category", b =>
+                {
+                    b.Navigation("Articles");
                 });
 #pragma warning restore 612, 618
         }
